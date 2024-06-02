@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomeLayout from './layouts/HomeLayout';
-import Movies from './pages/Movies';
+import Moves from './pages/Moves';
 import Profile from './pages/Profile';
 import GetQuote from './pages/GetQuote';
 import Logout from './pages/Logout';
@@ -16,11 +16,11 @@ const App = () => {
       children: [
         {
           index: true,
-          element: <Movies />,
+          element: <Moves />,
         },
         {
-          path: "my-movies",
-          element: <Movies />,
+          path: "my-moves",
+          element: <Moves />,
         },
         {
           path: "my-profile",

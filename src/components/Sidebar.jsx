@@ -1,57 +1,46 @@
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { FaTruck, FaUser, FaCalculator, FaSignOutAlt } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
     const values = [
         {
-            name: 'MY MOVIES',
-            path: '/my-movies',
-            img: 'https://img.icons8.com/ios-filled/50/000000/truck.png'
+            name: 'MY MOVES',
+            path: '/my-moves',
+            icon: <FaTruck color='#EC5642' size={17} className='mr-1' />,
         },
         {
             name: 'MY PROFILE',
             path: '/my-profile',
-            img: 'https://img.icons8.com/ios-filled/50/000000/user.png'
+            icon: <FaUser color='#EC5642' size={17} className='mr-1' />,
         },
         {
             name: 'GET QUOTE',
             path: '/get-quote',
-            img: 'https://img.icons8.com/ios-filled/50/000000/calculator.png'
+            icon: <FaCalculator color='#EC5642' size={17} className='mr-1' />,
         },
         {
             name: 'LOGOUT',
             path: '/logout',
-            img: 'https://img.icons8.com/ios-filled/50/000000/logout-rounded-left.png'
+            icon: <FaSignOutAlt color='#EC5642' size={17} className='mr-1' />,
         }
-    ]
+    ];
 
     return (
-
-
-        <nav className="w-48 h-screen bg-white p-4">
-            {
-                values.map((item, index) => {
-                    return <NavLink
-                        to={item.path}
-                        className={({ isActive, isPending }) =>
-                            `${isPending ? "pending" : isActive ? "border-l-4 border-red-500" : "border-l-4 border-transparent"} flex items-center p-2 mb-4 text-black font-bold `
-                        }
-                    >
-                        <img
-                            src={item.img}
-                            alt={item.name}
-                            className="w-6 h-6 mr-2"
-                        />
-                        {item.name}
-                    </NavLink>
-                })
-            }
-
-
+        <nav className="w-full h-screen bg-white p-4">
+            {values.map((item, index) => (
+                <NavLink
+                    to={item.path}
+                    className={({ isActive, isPending }) =>
+                        `${isPending ? "pending" : isActive ? "border-l-4 border-red-500" : "border-l-4 border-transparent"} flex items-center p-2 mb-4 text-black font-bold `
+                    }
+                >
+                    {item.icon} {/* Use the imported icon component */}
+                    {item.name}
+                </NavLink>
+            ))}
         </nav>
-
-
-    )
+    );
 }
 
-export default Sidebar
+export default Sidebar;
