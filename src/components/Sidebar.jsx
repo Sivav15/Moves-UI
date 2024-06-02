@@ -27,18 +27,21 @@ const Sidebar = () => {
     ];
 
     return (
-        <nav className="w-full h-screen bg-white p-4">
-            {values.map((item, index) => (
-                <NavLink
-                    to={item.path}
-                    className={({ isActive, isPending }) =>
-                        `${isPending ? "pending" : isActive ? "border-l-4 border-red-500" : "border-l-4 border-transparent"} flex items-center p-2 mb-4 text-black font-bold `
-                    }
-                >
-                    {item.icon} {/* Use the imported icon component */}
-                    {item.name}
-                </NavLink>
-            ))}
+        <nav className='fixed top-0 left-0'>
+            <div className="w-full h-screen bg-white p-4 ">
+                {values.map((item, index) => (
+                    <NavLink
+                        key={index}
+                        to={item.path}
+                        className={({ isActive, isPending }) =>
+                            `${isPending ? "pending" : isActive ? "border-l-4 border-red-500" : "border-l-4 border-transparent"} flex items-center p-2 mb-4 text-black font-bold `
+                        }
+                    >
+                        {item.icon} {/* Use the imported icon component */}
+                        {item.name}
+                    </NavLink>
+                ))}
+            </div>
         </nav>
     );
 }

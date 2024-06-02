@@ -1,50 +1,66 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import MoveItem from '../components/moves/MoveItem'
+import ViewMoveDetails from '../components/moves/ViewMoveDetails';
+import axios from 'axios';
+import loading from '../assets/loading.svg'
 
 const Moves = () => {
+    const [moves, setMoves] = useState([])
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [viewMore, setViewMore] = useState({
+        toggle: false,
+        index: null
+    })
 
-    const moves = [
-        {
-            from: 'Ejipura, Bengaluru, Karnataka',
-            to: 'HSR Layout, Bengaluru, Karnataka',
-            bhk: '1 BHK',
-            items: 32,
-            distance: '4.8 km',
-            date: 'Sep 26, 2020 at 6:18 pm',
-            requestId: 'E21418',
-            isFlexible: true,
-        },
-        {
-            from: 'Ejipura Signal, 100 Feet Road, Chandra Reddy Layout, S T Bed Layout, Ejipura, Bengaluru, Karnataka',
-            to: 'Ulsoor Lake, Ulsoor Lake Pathway, Rukmani Colony, Sivanchetti Gardens, Bengaluru, Karnataka',
-            bhk: '3 + BHK',
-            items: 82,
-            distance: '8.3 km',
-            date: 'Sep 16, 2020 at 7:28 pm',
-            requestId: 'E41057',
-            isFlexible: true,
-        },
-        {
-            from: 'Rajajinagar Metro Station, Chord Road, West of Chord Road 2nd Stage, Nagapura, Bengaluru, Karnataka',
-            to: 'HAL Old Airport Road, BDA Colony, Domlur Village, Domlur, Bengaluru, Karnataka',
-            bhk: '3 BHK',
-            items: 72,
-            distance: '10.1 km',
-            date: 'Sep 18, 2020 at 5:30 pm',
-            requestId: 'E12012',
-            isFlexible: false,
-        },
-    ];
 
+    const handleViewItem = ({ index, toggle }) => {
+        if (index === viewMore.index) {
+            setViewMore({
+                toggle: false,
+                index: null,
+            })
+            return
+        }
+        setViewMore({
+            toggle: toggle,
+            index: index,
+        })
+    }
+
+    useEffect(() => {
+        getMoves();
+    }, []);
+
+    const getMoves = async () => {
+        setIsLoading(true);
+        try {
+            const response = await axios.get('http://test.api.boxigo.in/sample-data/');
+
+            setMoves(response.data.Customer_Estimate_Flow);
+        } catch (err) {
+            setError(err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    if (isLoading) return <div className='flex justify-center items-center h-screen'>
+        <img src={loading} className='w-10 h-10' alt="loading" />
+    </div>;
+    if (error) return <p>Error fetching data: {error.message}</p>;
     return (
-        <div className='p-6 w-full'>
-            <div className='font-bold text-lg '>
+        <div className='w-full'>
+            <div className='pt-6 pb-2 font-bold text-lg sticky top-0 z-1 bg-white'>
                 My Moves
             </div>
-            {moves.map((move, index) => (
-                <MoveItem move={move} key={index} />
-            ))}
+            <div className='px-3'>
+                {moves.length > 0 && moves.map((move, index) => (
+                    <MoveItem move={move} index={index} key={index} handleViewItem={handleViewItem} viewMore={viewMore} />
+                ))}
 
+
+            </div>
         </div>
     )
 }
